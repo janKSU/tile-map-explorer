@@ -3,7 +3,6 @@ import woodTileset from './wood_tileset.tsx';
 import woodTilesetImage from './wood_tileset.png';
 import waterTileset from './Tilesheet-water.tsx';
 import waterTilesetImage from './Tilesheet-water.png';
-import pandaTilesetImage from './Panda.png';
 
 /** @class Game
  * A class representing the high-level functionality
@@ -36,13 +35,6 @@ export default class Game {
             this.waterLoaded = true;
         };
         this.water.src = waterTilesetImage;
-
-        this.panda = new Image();
-        this.panda.onload = () => {
-            this.pandaLoaded = true;
-        };
-        this.panda.src = pandaTilesetImage;
-
         this.tilesets = [woodTileset, woodTileset, waterTileset];
 
         // Set up the back buffer
@@ -94,6 +86,7 @@ export default class Game {
 
         // TODO: Render game
 
+        // Parse the world
         if (this.woodLoaded && this.waterLoaded) {
             this.images = [this.wood, this.wood, this.water];
             //this._start = 1;
