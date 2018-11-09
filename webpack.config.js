@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
+    //mode: 'development',
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -32,5 +32,5 @@ module.exports = {
         watchContentBase: true
     },
     //devtool: 'inline-source-map'
-    devtool: 'source-map'
+    //devtool: 'source-map'
 };
