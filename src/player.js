@@ -64,25 +64,24 @@ export default class Player {
             this.moving = false;
         }
         if (this.moving) {
-            let tileMapIndex = Math.floor((this.y+16) / 32) * 32 + Math.floor((this.x+16) / 32);
+            let tileMapIndex = Math.floor((this.y + 32) / 32) * 32 + Math.floor((this.x + 32) / 32);
             if (solidTiles.includes(tileMapIndex)) {
                 this.x = prevX;
                 this.y = prevY;
-                console.log('x: ' + this.x + ' y: ' + this.y + ' tile: ' + tileMapIndex);
+                //console.log('x: ' + this.x + ' y: ' + this.y + ' tile: ' + tileMapIndex);
             }
-            /*let tileMapIndex1 = Math.floor((this.y + 32) / 32) * 32 + Math.floor((this.x) / 32);
-            let tileMapIndex2 = Math.floor((this.y + 32) / 32) * 32 + Math.floor((this.x + 32) / 32);
-            if (solidTiles.includes(tileMapIndex1)) {
+            let tileMapIndex2 = Math.floor((this.y + 32) / 32) * 32 + Math.floor((this.x) / 32);
+            if (solidTiles.includes(tileMapIndex2)) {
                 this.x = prevX;
                 this.y = prevY;
-                console.log('x: ' + this.x + ' y: ' + this.y + ' tile: ' + tileMapIndex1);
-                console.log('x: ' + (this.x + 32) + ' y: ' + this.y + ' tile: ' + tileMapIndex1);
+                //console.log('x: ' + this.x + ' y: ' + this.y + ' tile: ' + tileMapIndex);
             }
-            else if (solidTiles.includes(tileMapIndex2)) {
+
+            //Check map boundaries
+            if (this.x + 16 < 0 || this.x + 16 > 1024 || this.y + 16 < 0 || this.y + 16 > 768) {
                 this.x = prevX;
                 this.y = prevY;
-                console.log('x: ' + (this.x + 32) + ' y: ' + (this.y + 32) + ' tile: ' + tileMapIndex2);
-            }*/
+            }
         }
     }
 
