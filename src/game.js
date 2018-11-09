@@ -15,7 +15,7 @@ export default class Game {
      * @param {integer} heght - the height of the game screen in pixels
      */
     constructor(width, height) {
-        this._start = null;
+        this._start = 1;
         this.WIDTH = width;
         this.HEIGHT = height;
         this.input = new Input();
@@ -36,6 +36,8 @@ export default class Game {
         };
         this.water.src = waterTilesetImage;
         this.tilesets = [woodTileset, woodTileset, waterTileset];
+
+        this.solidTiles = [];
 
         // Set up the back buffer
         this.backBuffer = document.createElement('canvas');
@@ -69,7 +71,7 @@ export default class Game {
     update(elapsedTime) {
 
         // Update game entitites
-        this.entities.forEach(entity => entity.update(elapsedTime, this.input));
+        this.entities.forEach(entity => entity.update(elapsedTime, this.input, this.solidTiles));
 
         // Swap input buffers
         this.input.update();
@@ -89,7 +91,6 @@ export default class Game {
         // Parse the world
         if (this.woodLoaded && this.waterLoaded) {
             this.images = [this.wood, this.wood, this.water];
-            //this._start = 1;
             for (let i = 0; i < this.mapJson.layers.length; i++) {
                 let width = parseInt(this.mapJson.layers[i].width);
                 let imagewidth = parseInt(this.tilesets[i].tileset.image[0].$.width);
@@ -97,7 +98,15 @@ export default class Game {
                 //this.tilesets[0].tileset.image[0].$
                 // this.tilesets[0].tileset.$
                 let self = this;
+                let tilePictureIndex = 0;
                 this.mapJson.layers[i].data.forEach(function (tile_idx, index) {
+                    //Mark as solid tile
+                    if (i > 0 && tile_idx != 0 && self._start === 1) {
+                        self.solidTiles.push(tilePictureIndex);
+                    }
+                    tilePictureIndex++;
+
+                    //Skip the unused tiles in layer
                     if (tile_idx == 0) {
                         return;
                     }
@@ -112,8 +121,11 @@ export default class Game {
                     s_y = ~~(index / width) * size;
                     self.backBufferCtx.drawImage(self.images[i], img_x, img_y, size, size,
                         s_x, s_y, size, size);
+
+
                 });
             }
+            this._start = 0;
         }
 
         // Render entities

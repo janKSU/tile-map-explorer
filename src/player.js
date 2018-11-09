@@ -36,32 +36,53 @@ export default class Player {
      * @param {double} deltaT - the elapsed time
      * @param {Input} input - the input object
      */
-    update(deltaT, input) {
+    update(deltaT, input, solidTiles) {
+        let prevX = this.x;
+        let prevY = this.y;
+
         if (input.keyPressed("ArrowLeft")) {
             this.x--;
             this.direction = this.DIRECTIONS.WEST;
             this.moving = true;
-            return;
         }
-        if (input.keyPressed("ArrowRight")) {
+        else if (input.keyPressed("ArrowRight")) {
             this.x++;
             this.direction = this.DIRECTIONS.EAST;
             this.moving = true;
-            return;
         }
-        if (input.keyPressed("ArrowUp")) {
+        else if (input.keyPressed("ArrowUp")) {
             this.y--;
             this.direction = this.DIRECTIONS.NORTH;
             this.moving = true;
-            return;
         }
-        if (input.keyPressed("ArrowDown")) {
+        else if (input.keyPressed("ArrowDown")) {
             this.y++;
             this.direction = this.DIRECTIONS.SOUTH;
             this.moving = true;
-            return;
-        } else {
+        }
+        else {
             this.moving = false;
+        }
+        if (this.moving) {
+            let tileMapIndex = Math.floor((this.y+16) / 32) * 32 + Math.floor((this.x+16) / 32);
+            if (solidTiles.includes(tileMapIndex)) {
+                this.x = prevX;
+                this.y = prevY;
+                console.log('x: ' + this.x + ' y: ' + this.y + ' tile: ' + tileMapIndex);
+            }
+            /*let tileMapIndex1 = Math.floor((this.y + 32) / 32) * 32 + Math.floor((this.x) / 32);
+            let tileMapIndex2 = Math.floor((this.y + 32) / 32) * 32 + Math.floor((this.x + 32) / 32);
+            if (solidTiles.includes(tileMapIndex1)) {
+                this.x = prevX;
+                this.y = prevY;
+                console.log('x: ' + this.x + ' y: ' + this.y + ' tile: ' + tileMapIndex1);
+                console.log('x: ' + (this.x + 32) + ' y: ' + this.y + ' tile: ' + tileMapIndex1);
+            }
+            else if (solidTiles.includes(tileMapIndex2)) {
+                this.x = prevX;
+                this.y = prevY;
+                console.log('x: ' + (this.x + 32) + ' y: ' + (this.y + 32) + ' tile: ' + tileMapIndex2);
+            }*/
         }
     }
 
@@ -93,19 +114,11 @@ export default class Player {
                 tile_idx = this.direction.idx[0];
             }
 
-            let img_x, img_y, s_x, s_y;
-            //tile_idx--;
-            //img_x = (tile_idx % (imagewidth / size)) * size;
-            //img_y = ~~(tile_idx / (imagewidth / size)) * size;
+            let s_x, s_y;
             s_x = (tile_idx % width) * size;
             s_y = ~~(tile_idx / width) * size;
             context.drawImage(this.panda, s_x, s_y, size, size,
                 this.x, this.y, size, size);
-            /*
-            context.fillStyle = "blue";
-            context.beginPath();
-            context.arc(this.x, this.y, 25, 0, 2 * Math.PI);
-            context.fill();*/
         }
     }
 }
