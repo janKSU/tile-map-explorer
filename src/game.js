@@ -95,8 +95,7 @@ export default class Game {
                 let width = parseInt(this.mapJson.layers[i].width);
                 let imagewidth = parseInt(this.tilesets[i].tileset.image[0].$.width);
                 let size = parseInt(this.tilesets[i].tileset.$.tilewidth);
-                //this.tilesets[0].tileset.image[0].$
-                // this.tilesets[0].tileset.$
+                
                 let self = this;
                 let tilePictureIndex = 0;
                 this.mapJson.layers[i].data.forEach(function (tile_idx, index) {
@@ -110,16 +109,16 @@ export default class Game {
                     if (tile_idx == 0) {
                         return;
                     }
-                    let img_x, img_y, s_x, s_y;
+                    let d_x, d_y, s_x, s_y;
                     if (i === 2) {
                         tile_idx = tile_idx - 256;
                     }
                     tile_idx--;
-                    img_x = (tile_idx % (imagewidth / size)) * size;
-                    img_y = ~~(tile_idx / (imagewidth / size)) * size;
+                    d_x = (tile_idx % (imagewidth / size)) * size;
+                    d_y = Math.floor(tile_idx / (imagewidth / size)) * size;
                     s_x = (index % width) * size;
-                    s_y = ~~(index / width) * size;
-                    self.backBufferCtx.drawImage(self.images[i], img_x, img_y, size, size,
+                    s_y = Math.floor(index / width) * size;
+                    self.backBufferCtx.drawImage(self.images[i], d_x, d_y, size, size,
                         s_x, s_y, size, size);
 
 
